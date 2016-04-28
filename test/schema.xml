@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database name="testService" defaultIdMethod="native"
+          defaultPhpNamingMethod="nochange"
+          identifierQuoting="true"
+          namespace="SzymanTest\Model"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://xsd.propelorm.org/1.6/database.xsd">
+
+    <table name="User">
+        <column name="handle" type="VARCHAR" required="true" primaryKey="true" size="60" />
+        <column name="name" type="VARCHAR" required="true" />
+        <column name="emailAddress" type="VARCHAR" required="true" />
+        <column name="password" type="VARCHAR" required="false" size="128" />
+
+        <unique>
+            <unique-column name="handle" />
+        </unique>
+
+        <behavior name="validate">
+            <parameter name="blank1" value="{column: handle, validator: NotBlank }" />
+            <parameter name="blank2" value="{column: name, validator: NotBlank }" />
+            <parameter name="blank3" value="{column: primaryEmailAddress, validator: NotBlank }" />
+            <parameter name="blank4" value="{column: password, validator: NotBlank }" />
+
+            <parameter name="other1" value="{column: handle, validator: Length, options: {min: 3}}" />
+            <parameter name="other2" value="{column: name, validator: Length, options: {min: 6}}" />
+            <parameter name="other3" value="{column: primaryEmailAddress, validator: Email}" />
+        </behavior>
+    </table>
+</database>

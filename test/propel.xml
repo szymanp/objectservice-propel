@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<config>
+    <propel>
+        <paths>
+            <schemaDir>./test</schemaDir>>
+            <phpConfDir>./test/propel/conf</phpConfDir>
+            <migrationDir>./test/propel/migrations</migrationDir>
+            <sqlDir>./test/propel/sql</sqlDir>
+            <phpDir>./test/src</phpDir>
+        </paths>
+        <database>
+            <connections>
+                <connection id="testService">
+                    <adapter>sqlite</adapter>
+                    <classname>Propel\Runtime\Connection\ConnectionWrapper</classname>
+                    <dsn>sqlite:test/testdb.sq3</dsn>
+                    <user></user>
+                    <password></password>
+                </connection>
+            </connections>
+        </database>
+        <runtime>
+            <defaultConnection>testService</defaultConnection>
+            <connection>testService</connection>
+        </runtime>
+        <generator>
+            <defaultConnection>testService</defaultConnection>
+            <connection>testService</connection>
+        </generator>
+    </propel>
+</config>

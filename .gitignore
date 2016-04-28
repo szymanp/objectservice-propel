@@ -1,0 +1,15 @@
+vendor
+composer.lock
+phpunit.xml
+database.serialize
+.buildpath
+.project
+.settings
+.idea
+test/testdb.sq3
+test/src/SzymanTest/Model/Map
+test/src/SzymanTest/Model/Base
+test/propel
+
+
+

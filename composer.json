@@ -1,0 +1,35 @@
+{
+    "name": "szyman/objectservice-propel",
+    "description": "Propel utilities for ObjectService",
+    "homepage": "https://github.com/szymanp/objectservice-propel",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Piotr Szymanski",
+            "email": "szyman@magres.net"
+        }
+    ],
+    "require": {
+        "szyman/common-exceptions": "dev-master",
+        "light/objectaccess": "dev-master",
+        "light/objectservice": "dev-json4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*",
+        "propel/propel": "dev-master"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/szymanp/light-objectaccess"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/szymanp/light-objectservice"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "Szyman\\ObjectService\\Propel\\": "src/" }
+    }
+}
