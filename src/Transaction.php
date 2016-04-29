@@ -2,6 +2,7 @@
 namespace Szyman\ObjectService\Propel;
 
 use Light\ObjectAccess\Resource\ResolvedResource;
+use Light\ObjectAccess\Resource\ResolvedObject;
 use Light\ObjectAccess\Transaction\Util\AbstractTransaction;
 use Propel\Runtime\Connection\ConnectionInterface;
 
@@ -21,15 +22,39 @@ final class Transaction extends AbstractTransaction
         $this->con->beginTransaction();
     }
 
-	/**
-	 * Transfer changes done in this transaction, but do not commit yet.
-	 *
-	 * With some ORM systems object are first modified, then the changes are transferred to the database,
-	 * and finally, the database changes are committed. This method is intended to carry out the step
-	 * of transferring the changes to the database.
-	 */
-	public function transfer()
+    /** @inheritdoc */
+    public function transfer()
     {
+        $save = array();
+        $delete = array();
+    
+        foreach($this->created as $r)
+        {
+            if ($r instanceof ResolvedObject)
+            {
+                $save[] = $r->getValue();
+            }
+        }
+        foreach($this->changed as $r)
+        {
+            if ($r instanceof ResolvedObject)
+            {
+                $save[] = $r->getValue();
+            }
+        }
+        foreach($this->deleted as $r)
+        {
+            if ($r instanceof ResolvedObject)
+            {
+                $delete[] = $r->getValue();
+            }
+        }
+        
+        $save = array_unique($save, SORT_REGULAR);
+        $delete = array_unique($delete, SORT_REGULAR);
+        
+        foreach($save as $o) $o->save();
+        foreach($delete as $o) $o->delete();
     }
 	
     /** @inheritdoc */

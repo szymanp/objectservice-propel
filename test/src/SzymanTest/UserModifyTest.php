@@ -17,14 +17,14 @@ class UserModifyTest extends AbstractTest
     
     public function testPatchUser()
     {
-        $data = '{name: "Sam Maximus Gamgee"}';
+        $data = '{"name": "Sam Maximus Gamgee"}';
         $proc = $this->container->getRequestProcessor();
         $resp = $proc->handle($this->send('api/user/sam.g', 'PATCH', $data));
         
         $this->assertEquals(200, $resp->getStatusCode(), $this->container->getConfiguration()->getLogger());
         
-        $user = UserQuery::create()->findPK('Administrator');
-        $this->assertEquals('Sam Maximus Gamgee', $user->getName());
+        $user = UserQuery::create()->findPK('sam.g');
+        $this->assertEquals('Sam Maximus Gamgee', $user->getName(), 'User was not updated');
         
         $json = json_decode($resp->getContent());
         $this->assertTrue(is_object($json));
