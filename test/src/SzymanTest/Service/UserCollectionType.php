@@ -9,13 +9,16 @@ use Light\ObjectAccess\Resource\Origin_Unavailable;
 use Light\ObjectAccess\Resource\Origin_ElementInCollection;
 use Light\ObjectAccess\Resource\Origin_PropertyOfObject;
 use Light\ObjectAccess\Type\Collection\Element;
+use Light\ObjectAccess\Type\Collection\Append;
 use Light\ObjectAccess\Type\CollectionType;
 use Light\ObjectAccess\Type\TypeRegistry;
+use Light\ObjectAccess\Transaction\Transaction;
+use Light\ObjectAccess\Exception\InvalidActionException;
 use Szyman\Exception\NotImplementedException;
 use SzymanTest\Model\User;
 use SzymanTest\Model\UserQuery;
 
-class UserCollectionType implements CollectionType
+class UserCollectionType implements CollectionType, Append
 {
     /** @inheritdoc */
     public function getBaseTypeName()
@@ -86,4 +89,34 @@ class UserCollectionType implements CollectionType
     {
         return $value instanceof User;
     }
+    
+    // Append interface
+    
+    /** @inheritdoc */
+    public function appendValue(ResolvedCollection $collection, $value, Transaction $transaction)
+    {
+        if (!($value instanceof User))
+        {
+            throw new \LogicException();
+        }
+    
+        if ($collection instanceof ResolvedCollectionResource
+            && $collection->getOrigin() instanceof Origin_Unavailable)
+        {
+            // Create a new user.
+            
+            if (!$value->isNew())
+            {
+                throw new InvalidActionException("An existing user cannot be appended to this collection");
+            }
+            
+            // The key is the user's handle.
+            return $value->getPrimaryKey();
+        }
+        else
+        {
+            throw new NotImplementedException();
+        }
+    }
+    
 }

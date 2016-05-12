@@ -18,7 +18,7 @@ class UserType extends DefaultComplexType implements Create
     	    ->addProperty(            new DefaultProperty("emailAddress",  "string"))
     	    ->addProperty($password = new DefaultProperty("password", "string"));
             
-        $handle->setWritable(false);    // This is the primary-key, so we should not change it.
+        $handle->setWritableOnUpdate(false);    // This is the primary-key, so we should not change it.
         $password->setReadable(false);
     }
 
