@@ -33,4 +33,15 @@ class UserModifyTest extends AbstractTest
         $this->assertEquals($user->getName(), $json->name);
         $this->assertEquals($user->getEmailAddress(), $json->emailAddress);
     }
+    
+    public function testAttemptModifyPK()
+    {
+        $data = '{"handle": "ali.g"}';
+        $proc = $this->container->getRequestProcessor();
+        $resp = $proc->handle($this->send('api/user/sam.g', 'PATCH', $data));
+
+        $this->assertEquals(400, $resp->getStatusCode(), $this->container->getConfiguration()->getLogger());
+        $json = json_decode($resp->getContent());
+        $this->assertRegexp("/User::handle is not writable/", $json->message);
+    }
 }
