@@ -1,0 +1,7 @@
+#!/bin/bash
+mkdir test/propel test/propel/conf test/propel/sql
+php7 vendor/bin/propel build --config-dir test
+php7 vendor/bin/propel build-sql --config-dir test
+php7 vendor/bin/propel insert-sql --config-dir test
+php7 vendor/bin/propel config:convert --config-dir test
+php7 test/testdata.php
